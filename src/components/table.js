@@ -35,7 +35,7 @@ export function initTable(settings, onAction) {
 
   root.container.addEventListener("submit", (e) => {
     e.preventDefault();
-    onAction(e.submitter)
+    onAction(e.submitter);
   });
   const render = (data) => {
     // @todo: #1.1 — преобразовать данные в массив строк на основе шаблона rowTemplate
@@ -43,14 +43,22 @@ export function initTable(settings, onAction) {
     const nextRows = data.map((item) => {
       const row = cloneTemplate(rowTemplate);
       Object.keys(item).forEach((key) => {
-        if (row.elements[key] && row.elements) {
-          row.elements[key].textContent = item[key];
+        if (row.elements && row.elements[key]) {
+          const element = row.elements[key];
+          if (element instanceof Element) {
+            if (element.tagName === "INPUT" || element.tagName === "SELECT") {
+              element.value = item[key];
+            } else {
+              element.textContent = item[key];
+            }
+          }
         }
       });
-      return row.container
+      return row.container;
     });
     root.elements.rows.replaceChildren(...nextRows);
   };
-
+  
   return { ...root, render };
 }
+
