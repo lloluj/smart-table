@@ -21,8 +21,8 @@ export function initFiltering(elements) {
     // код с обработкой очистки поля
     if (action && action.name === "clear") {
       // Получаем родительский элемент кнопки
-      const parent = action.closest(".filter-group"); // предполагаем, что кнопка и input находятся в контейнере с классом .filter-group
-
+      const parent = action.parentElement
+      // const parent = action.closest(".filter-group"); // предполагаем, что кнопка и input находятся в контейнере с классом .filter-group
       if (parent) {
         // Находим поле ввода в родительском элементе
         const input = parent.querySelector("input");
